@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sbe:messageSchema xmlns:sbe="http://fixprotocol.io/2016/sbe"
+                   package="baseline"
+                   id="1"
+                   version="0"
+                   semanticVersion="5.2"
+                   description="Eg OCG schema"
+                   headerType="dummyMsgHeader"
+                   byteOrder="littleEndian">
+    <types>
+        <composite name="dummyMsgHeader" description="Message identifiers and length of message root">
+            <type name="blockLength" primitiveType="uint16" presence="constant">1024</type>
+            <type name="templateId" primitiveType="uint16" presence="constant">1</type>
+            <type name="schemaId" primitiveType="uint16" presence="constant">1</type>
+            <type name="version" primitiveType="uint16" presence="constant">1</type>
+        </composite>
+    </types>
+    <types>
+        <enum name="BoolType" encodingType="uint8">
+            <validValue name="No">0</validValue>
+            <validValue name="Yes">1</validValue>
+        </enum>
+        <enum name="MessageType" encodingType="uint8">
+            <validValue name="Heartbeat">0</validValue>
+            <validValue name="TestRequest">1</validValue>
+            <validValue name="ResendRequest">2</validValue>
+            <validValue name="Reject">3</validValue>
+            <validValue name="SequenceReset">4</validValue>
+            <validValue name="Logon">5</validValue>
+            <validValue name="Logout">6</validValue>
+            <validValue name="LookupRequest">7</validValue>
+            <validValue name="LookupResponse">8</validValue>
+            <validValue name="BusinessMessageReject">9</validValue>
+            <validValue name="ExecutionReport">10</validValue>
+            <validValue name="NewOrder">11</validValue>
+            <validValue name="AmendRequest">12</validValue>
+            <validValue name="CancelRequest">13</validValue>
+            <validValue name="MassCancelRequest">14</validValue>
+            <validValue name="OrderMassCancelReport">15</validValue>
+            <validValue name="Quote">16</validValue>
+            <validValue name="QuoteCancel">17</validValue>
+            <validValue name="QuoteStatusReport">18</validValue>
+            <validValue name="TradeCaptureReport">21</validValue>
+            <validValue name="TradeCaptureReportAck">22</validValue>
+            <validValue name="OBOCancelRequest">23</validValue>
+            <validValue name="OBOMassCancelRequest">24</validValue>
+            <validValue name="ThrottleEntitlementRequest">25</validValue>
+            <validValue name="ThrottleEntitlementResponse">26</validValue>
+            <validValue name="PartyEntitlementsRequest">27</validValue>
+            <validValue name="PartyEntitlementsReport">28</validValue>
+        </enum>
+        <type name="CompIDType" primitiveType="char" length="12" characterEncoding="ASCII"/>
+    </types>
+    <sbe:message name="Ocg" id="1" description="General Message" >
+        <field name="startOfMsg" id="1" type="uint8"/>
+        <field name="length" id="2" type="uint16"/>
+        <field name="msgType" id="3" type="MessageType"/>
+        <field name="sequenceNumber" id="4" type="uint32"/>
+        <field name="possDup" id="5" type="BoolType"/>
+        <field name="possResend" id="6" type="BoolType"/>
+        <field name="compId" id="7" type="CompIDType"/>
+    </sbe:message>
+</sbe:messageSchema>

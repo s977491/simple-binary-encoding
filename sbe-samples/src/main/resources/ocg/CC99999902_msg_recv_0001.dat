@@ -1,0 +1,172 @@
+20181104-08:45:56.314================CC99999902_SysCommanderBssDC_1926136110
+Message:Logon	Header Field:
+	BeanName:fieldStartofMessage	Field ID:9	Type:UInt8	value:2
+	BeanName:fieldLength	Field ID:4	Type:UInt16	value:0
+	BeanName:fieldMessageType	Field ID:5	Type:UInt8	value:5
+	BeanName:fieldSequenceNumber	Field ID:8	Type:UInt32	value:1
+	BeanName:fieldPossDup	Field ID:6	Type:UInt8	value:0
+	BeanName:fieldPossResend	Field ID:7	Type:UInt8	value:0
+	BeanName:fieldCompID	Field ID:3	Type:AlphanumericFixedLength	value:_CC99999902
+body Field:
+48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+	group fields
+	Pos:2		BeanName:fieldNextExpectedMessageSequence	Field ID:47	Type:UInt32	value:2
+	Pos:3		BeanName:fieldSessionStatus	Field ID:93	Type:UInt8	value:0
+
+Trailer Field:
+	BeanName:fieldChecksum	Field ID:2	Type:UInt32	value:3345951096
+20181104-08:45:56.316================CC99999902_SysCommanderBssDC_1926136110
+Message:Logon	Header Field:
+	BeanName:fieldStartofMessage	Field ID:9	Type:UInt8	value:2
+	BeanName:fieldLength	Field ID:4	Type:UInt16	value:0
+	BeanName:fieldMessageType	Field ID:5	Type:UInt8	value:5
+	BeanName:fieldSequenceNumber	Field ID:8	Type:UInt32	value:1
+	BeanName:fieldPossDup	Field ID:6	Type:UInt8	value:0
+	BeanName:fieldPossResend	Field ID:7	Type:UInt8	value:0
+	BeanName:fieldCompID	Field ID:3	Type:AlphanumericFixedLength	value:_CC99999902
+body Field:
+48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+	group fields
+	Pos:2		BeanName:fieldNextExpectedMessageSequence	Field ID:47	Type:UInt32	value:2
+	Pos:3		BeanName:fieldSessionStatus	Field ID:93	Type:UInt8	value:0
+
+Trailer Field:
+	BeanName:fieldChecksum	Field ID:2	Type:UInt32	value:3345951096
+20181104-08:47:33.943================CC99999902_MsgDispatcher_1684528583
+Message:ExecutionReport	Header Field:
+	BeanName:fieldStartofMessage	Field ID:9	Type:UInt8	value:2
+	BeanName:fieldLength	Field ID:4	Type:UInt16	value:0
+	BeanName:fieldMessageType	Field ID:5	Type:UInt8	value:10
+	BeanName:fieldSequenceNumber	Field ID:8	Type:UInt32	value:6
+	BeanName:fieldPossDup	Field ID:6	Type:UInt8	value:0
+	BeanName:fieldPossResend	Field ID:7	Type:UInt8	value:0
+	BeanName:fieldCompID	Field ID:3	Type:AlphanumericFixedLength	value:_CC99999902
+body Field:
+255 94 7 208 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+	group fields
+	Pos:0		BeanName:fieldClientOrderID	Field ID:10	Type:AlphanumericFixedLength	value:1
+	Pos:1		BeanName:fieldSubmittingBrokerID	Field ID:97	Type:AlphanumericFixedLength	value:700
+	Pos:2		BeanName:fieldSecurityID	Field ID:89	Type:AlphanumericFixedLength	value:2
+	Pos:3		BeanName:fieldSecurityIDSource	Field ID:90	Type:UInt8	value:8
+	Pos:4		BeanName:fieldSecurityExchange	Field ID:88	Type:AlphanumericFixedLength	value:MAMK
+	Pos:5		BeanName:fieldBrokerLocationID	Field ID:3	Type:AlphanumericFixedLength	value:1
+	Pos:6		BeanName:fieldTransactionTime	Field ID:103	Type:AlphanumericFixedLength	value:20181104-00:47:33.922
+	Pos:7		BeanName:fieldSide	Field ID:94	Type:UInt8	value:2
+	Pos:9		BeanName:fieldOrderID	Field ID:58	Type:AlphanumericFixedLength	value:7zwhx2h7jte0227a6741
+	Pos:11		BeanName:fieldOrderType	Field ID:63	Type:UInt8	value:2
+	Pos:12		BeanName:fieldPrice	Field ID:70	Type:Decimal	value:100.00000000
+	Pos:13		BeanName:fieldOrderQuantity	Field ID:60	Type:Decimal	value:10000.00000000
+	Pos:14		BeanName:fieldTIF	Field ID:99	Type:UInt8	value:0
+	Pos:21		BeanName:fieldExecutionID	Field ID:24	Type:AlphanumericFixedLength	value:7zwhx2nu8f154143c431
+	Pos:22		BeanName:fieldOrderStatus	Field ID:62	Type:UInt8	value:10
+	Pos:23		BeanName:fieldExecType	Field ID:23	Type:Byte	value:A
+	Pos:24		BeanName:fieldCumulativeQuantity	Field ID:12	Type:Decimal	value:0E-8
+	Pos:25		BeanName:fieldLeavesQuantity	Field ID:33	Type:Decimal	value:10000.00000000
+	Pos:27		BeanName:fieldLotType	Field ID:35	Type:UInt8	value:2
+	Pos:37		BeanName:fieldCopyMessageIndicator	Field ID:1000	Type:UInt8	value:1
+
+Trailer Field:
+	BeanName:fieldChecksum	Field ID:2	Type:UInt32	value:3138694718
+20181104-08:47:33.953================CC99999902_MsgDispatcher_1684528583
+Message:ExecutionReport	Header Field:
+	BeanName:fieldStartofMessage	Field ID:9	Type:UInt8	value:2
+	BeanName:fieldLength	Field ID:4	Type:UInt16	value:0
+	BeanName:fieldMessageType	Field ID:5	Type:UInt8	value:10
+	BeanName:fieldSequenceNumber	Field ID:8	Type:UInt32	value:7
+	BeanName:fieldPossDup	Field ID:6	Type:UInt8	value:0
+	BeanName:fieldPossResend	Field ID:7	Type:UInt8	value:0
+	BeanName:fieldCompID	Field ID:3	Type:AlphanumericFixedLength	value:_CC99999902
+body Field:
+255 94 7 192 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+	group fields
+	Pos:0		BeanName:fieldClientOrderID	Field ID:10	Type:AlphanumericFixedLength	value:1
+	Pos:1		BeanName:fieldSubmittingBrokerID	Field ID:97	Type:AlphanumericFixedLength	value:700
+	Pos:2		BeanName:fieldSecurityID	Field ID:89	Type:AlphanumericFixedLength	value:2
+	Pos:3		BeanName:fieldSecurityIDSource	Field ID:90	Type:UInt8	value:8
+	Pos:4		BeanName:fieldSecurityExchange	Field ID:88	Type:AlphanumericFixedLength	value:MAMK
+	Pos:5		BeanName:fieldBrokerLocationID	Field ID:3	Type:AlphanumericFixedLength	value:1
+	Pos:6		BeanName:fieldTransactionTime	Field ID:103	Type:AlphanumericFixedLength	value:20181104-00:47:33.941
+	Pos:7		BeanName:fieldSide	Field ID:94	Type:UInt8	value:2
+	Pos:9		BeanName:fieldOrderID	Field ID:58	Type:AlphanumericFixedLength	value:7zwhx2h7jte0227a6741
+	Pos:11		BeanName:fieldOrderType	Field ID:63	Type:UInt8	value:2
+	Pos:12		BeanName:fieldPrice	Field ID:70	Type:Decimal	value:100.00000000
+	Pos:13		BeanName:fieldOrderQuantity	Field ID:60	Type:Decimal	value:10000.00000000
+	Pos:14		BeanName:fieldTIF	Field ID:99	Type:UInt8	value:0
+	Pos:21		BeanName:fieldExecutionID	Field ID:24	Type:AlphanumericFixedLength	value:7zwhxn0ls430493a1b2b
+	Pos:22		BeanName:fieldOrderStatus	Field ID:62	Type:UInt8	value:0
+	Pos:23		BeanName:fieldExecType	Field ID:23	Type:Byte	value:0
+	Pos:24		BeanName:fieldCumulativeQuantity	Field ID:12	Type:Decimal	value:0E-8
+	Pos:25		BeanName:fieldLeavesQuantity	Field ID:33	Type:Decimal	value:10000.00000000
+	Pos:37		BeanName:fieldCopyMessageIndicator	Field ID:1000	Type:UInt8	value:1
+
+Trailer Field:
+	BeanName:fieldChecksum	Field ID:2	Type:UInt32	value:845828660
+20181104-08:47:45.155================CC99999902_MsgDispatcher_1684528583
+Message:ExecutionReport	Header Field:
+	BeanName:fieldStartofMessage	Field ID:9	Type:UInt8	value:2
+	BeanName:fieldLength	Field ID:4	Type:UInt16	value:0
+	BeanName:fieldMessageType	Field ID:5	Type:UInt8	value:10
+	BeanName:fieldSequenceNumber	Field ID:8	Type:UInt32	value:8
+	BeanName:fieldPossDup	Field ID:6	Type:UInt8	value:0
+	BeanName:fieldPossResend	Field ID:7	Type:UInt8	value:0
+	BeanName:fieldCompID	Field ID:3	Type:AlphanumericFixedLength	value:_CC99999902
+body Field:
+255 94 7 208 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+	group fields
+	Pos:0		BeanName:fieldClientOrderID	Field ID:10	Type:AlphanumericFixedLength	value:2
+	Pos:1		BeanName:fieldSubmittingBrokerID	Field ID:97	Type:AlphanumericFixedLength	value:700
+	Pos:2		BeanName:fieldSecurityID	Field ID:89	Type:AlphanumericFixedLength	value:2
+	Pos:3		BeanName:fieldSecurityIDSource	Field ID:90	Type:UInt8	value:8
+	Pos:4		BeanName:fieldSecurityExchange	Field ID:88	Type:AlphanumericFixedLength	value:MAMK
+	Pos:5		BeanName:fieldBrokerLocationID	Field ID:3	Type:AlphanumericFixedLength	value:1
+	Pos:6		BeanName:fieldTransactionTime	Field ID:103	Type:AlphanumericFixedLength	value:20181104-00:47:45.149
+	Pos:7		BeanName:fieldSide	Field ID:94	Type:UInt8	value:1
+	Pos:9		BeanName:fieldOrderID	Field ID:58	Type:AlphanumericFixedLength	value:7zwn31v26q1cf5c93b96
+	Pos:11		BeanName:fieldOrderType	Field ID:63	Type:UInt8	value:2
+	Pos:12		BeanName:fieldPrice	Field ID:70	Type:Decimal	value:100.00000000
+	Pos:13		BeanName:fieldOrderQuantity	Field ID:60	Type:Decimal	value:10000.00000000
+	Pos:14		BeanName:fieldTIF	Field ID:99	Type:UInt8	value:0
+	Pos:21		BeanName:fieldExecutionID	Field ID:24	Type:AlphanumericFixedLength	value:7zwn31xo2q58c65f7130
+	Pos:22		BeanName:fieldOrderStatus	Field ID:62	Type:UInt8	value:10
+	Pos:23		BeanName:fieldExecType	Field ID:23	Type:Byte	value:A
+	Pos:24		BeanName:fieldCumulativeQuantity	Field ID:12	Type:Decimal	value:0E-8
+	Pos:25		BeanName:fieldLeavesQuantity	Field ID:33	Type:Decimal	value:10000.00000000
+	Pos:27		BeanName:fieldLotType	Field ID:35	Type:UInt8	value:2
+	Pos:37		BeanName:fieldCopyMessageIndicator	Field ID:1000	Type:UInt8	value:1
+
+Trailer Field:
+	BeanName:fieldChecksum	Field ID:2	Type:UInt32	value:1144501370
+20181104-08:47:45.168================CC99999902_MsgDispatcher_1684528583
+Message:ExecutionReport	Header Field:
+	BeanName:fieldStartofMessage	Field ID:9	Type:UInt8	value:2
+	BeanName:fieldLength	Field ID:4	Type:UInt16	value:0
+	BeanName:fieldMessageType	Field ID:5	Type:UInt8	value:10
+	BeanName:fieldSequenceNumber	Field ID:8	Type:UInt32	value:9
+	BeanName:fieldPossDup	Field ID:6	Type:UInt8	value:0
+	BeanName:fieldPossResend	Field ID:7	Type:UInt8	value:0
+	BeanName:fieldCompID	Field ID:3	Type:AlphanumericFixedLength	value:_CC99999902
+body Field:
+255 94 7 192 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+	group fields
+	Pos:0		BeanName:fieldClientOrderID	Field ID:10	Type:AlphanumericFixedLength	value:2
+	Pos:1		BeanName:fieldSubmittingBrokerID	Field ID:97	Type:AlphanumericFixedLength	value:700
+	Pos:2		BeanName:fieldSecurityID	Field ID:89	Type:AlphanumericFixedLength	value:2
+	Pos:3		BeanName:fieldSecurityIDSource	Field ID:90	Type:UInt8	value:8
+	Pos:4		BeanName:fieldSecurityExchange	Field ID:88	Type:AlphanumericFixedLength	value:MAMK
+	Pos:5		BeanName:fieldBrokerLocationID	Field ID:3	Type:AlphanumericFixedLength	value:1
+	Pos:6		BeanName:fieldTransactionTime	Field ID:103	Type:AlphanumericFixedLength	value:20181104-00:47:45.164
+	Pos:7		BeanName:fieldSide	Field ID:94	Type:UInt8	value:1
+	Pos:9		BeanName:fieldOrderID	Field ID:58	Type:AlphanumericFixedLength	value:7zwn31v26q1cf5c93b96
+	Pos:11		BeanName:fieldOrderType	Field ID:63	Type:UInt8	value:2
+	Pos:12		BeanName:fieldPrice	Field ID:70	Type:Decimal	value:100.00000000
+	Pos:13		BeanName:fieldOrderQuantity	Field ID:60	Type:Decimal	value:10000.00000000
+	Pos:14		BeanName:fieldTIF	Field ID:99	Type:UInt8	value:0
+	Pos:21		BeanName:fieldExecutionID	Field ID:24	Type:AlphanumericFixedLength	value:7zwn385v3z1bbbfe1381
+	Pos:22		BeanName:fieldOrderStatus	Field ID:62	Type:UInt8	value:0
+	Pos:23		BeanName:fieldExecType	Field ID:23	Type:Byte	value:0
+	Pos:24		BeanName:fieldCumulativeQuantity	Field ID:12	Type:Decimal	value:0E-8
+	Pos:25		BeanName:fieldLeavesQuantity	Field ID:33	Type:Decimal	value:10000.00000000
+	Pos:37		BeanName:fieldCopyMessageIndicator	Field ID:1000	Type:UInt8	value:1
+
+Trailer Field:
+	BeanName:fieldChecksum	Field ID:2	Type:UInt32	value:3431943673

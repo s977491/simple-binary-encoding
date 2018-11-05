@@ -1,0 +1,107 @@
+20181104-08:45:54.414================CO99999902_ThrottleControlOutboundMsgMgr_854367376
+Message:Logon	Header Field:
+	BeanName:fieldStartofMessage	Field ID:9	Type:UInt8	value:2
+	BeanName:fieldLength	Field ID:4	Type:UInt16	value:512
+	BeanName:fieldMessageType	Field ID:5	Type:UInt8	value:5
+	BeanName:fieldSequenceNumber	Field ID:8	Type:UInt32	value:1
+	BeanName:fieldPossDup	Field ID:6	Type:UInt8	value:0
+	BeanName:fieldPossResend	Field ID:7	Type:UInt8	value:0
+	BeanName:fieldCompID	Field ID:3	Type:AlphanumericFixedLength	value:CO99999902
+body Field:
+160 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+	group fields
+	Pos:0		BeanName:fieldPassword	Field ID:68	Type:AlphanumericFixedLength	value:HEY+c56XULMn88Xci7DzZ0YvaEaTijhD0PUYcGfrebcl52vHJkJLwYis5+7oQi/AgGUFW8WEY8vhn5l/iaBsbBQYnKFJSK4J6vV3dHB7jKIsU+M45rqhTy5KBb35sO2vA6JJ2TZa51Lhuy8uB5tbEfrMgzUFHGexo/On0rrrPy6fUo88f1O5zvZzRWpIP4fhf0clwYZOiz5eS/Jwnm/1SM/+zpZCjxRQOotbMllvZA62l/Tzr6PivzqoaJvtA01NqMOJlgmwj9ijzEgAqsbW4RKlucD0v9DwhF1wLOIwQytFS6vY6sPQNpACXtQH+yWMlqfalgy92Z2c4sGYrfUXqA==
+	Pos:2		BeanName:fieldNextExpectedMessageSequence	Field ID:47	Type:UInt32	value:1
+
+Trailer Field:
+	BeanName:fieldChecksum	Field ID:2	Type:UInt32	value:2566565927
+20181104-08:45:54.983================CO99999902_ThrottleControlOutboundMsgMgr_854367376
+Message:ThrottleEntitlementRequest	Header Field:
+	BeanName:fieldStartofMessage	Field ID:9	Type:UInt8	value:2
+	BeanName:fieldLength	Field ID:4	Type:UInt16	value:129
+	BeanName:fieldMessageType	Field ID:5	Type:UInt8	value:25
+	BeanName:fieldSequenceNumber	Field ID:8	Type:UInt32	value:2
+	BeanName:fieldPossDup	Field ID:6	Type:UInt8	value:0
+	BeanName:fieldPossResend	Field ID:7	Type:UInt8	value:0
+	BeanName:fieldCompID	Field ID:3	Type:AlphanumericFixedLength	value:CO99999902
+body Field:
+224 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+	group fields
+	Pos:0		BeanName:fieldUserRequestID	Field ID:120	Type:AlphanumericFixedLength	value:812106170358325
+	Pos:1		BeanName:fieldUserRequestType	Field ID:121	Type:UInt8	value:5
+	Pos:2		BeanName:fieldUserName	Field ID:119	Type:AlphanumericFixedLength	value:CO99999902
+
+Trailer Field:
+	BeanName:fieldChecksum	Field ID:2	Type:UInt32	value:2462835892
+20181104-08:45:55.012================CO99999902_ThrottleControlOutboundMsgMgr_854367376
+Message:PartyEntitlementsRequest	Header Field:
+	BeanName:fieldStartofMessage	Field ID:9	Type:UInt8	value:2
+	BeanName:fieldLength	Field ID:4	Type:UInt16	value:79
+	BeanName:fieldMessageType	Field ID:5	Type:UInt8	value:27
+	BeanName:fieldSequenceNumber	Field ID:8	Type:UInt32	value:3
+	BeanName:fieldPossDup	Field ID:6	Type:UInt8	value:0
+	BeanName:fieldPossResend	Field ID:7	Type:UInt8	value:0
+	BeanName:fieldCompID	Field ID:3	Type:AlphanumericFixedLength	value:CO99999902
+body Field:
+128 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+	group fields
+	Pos:0		BeanName:fieldEntitlementRequestID	Field ID:20	Type:AlphanumericFixedLength	value:812106216752059
+
+Trailer Field:
+	BeanName:fieldChecksum	Field ID:2	Type:UInt32	value:1915710864
+20181104-08:47:33.895================CO99999902_ThrottleControlOutboundMsgMgr_854367376
+Message:NewOrder	Header Field:
+	BeanName:fieldStartofMessage	Field ID:9	Type:UInt8	value:2
+	BeanName:fieldLength	Field ID:4	Type:UInt16	value:175
+	BeanName:fieldMessageType	Field ID:5	Type:UInt8	value:11
+	BeanName:fieldSequenceNumber	Field ID:8	Type:UInt32	value:8
+	BeanName:fieldPossDup	Field ID:6	Type:UInt8	value:0
+	BeanName:fieldPossResend	Field ID:7	Type:UInt8	value:0
+	BeanName:fieldCompID	Field ID:3	Type:AlphanumericFixedLength	value:CO99999902
+body Field:
+255 240 32 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+	group fields
+	Pos:0		BeanName:fieldClientOrderID	Field ID:10	Type:AlphanumericFixedLength	value:1
+	Pos:1		BeanName:fieldSubmittingBrokerID	Field ID:97	Type:AlphanumericFixedLength	value:700
+	Pos:2		BeanName:fieldSecurityID	Field ID:89	Type:AlphanumericFixedLength	value:2
+	Pos:3		BeanName:fieldSecurityIDSource	Field ID:90	Type:UInt8	value:8
+	Pos:4		BeanName:fieldSecurityExchange	Field ID:88	Type:AlphanumericFixedLength	value:XSSC
+	Pos:5		BeanName:fieldBrokerLocationID	Field ID:3	Type:AlphanumericFixedLength	value:1
+	Pos:6		BeanName:fieldTransactionTime	Field ID:103	Type:AlphanumericFixedLength	value:20181104-00:47:33.884
+	Pos:7		BeanName:fieldSide	Field ID:94	Type:UInt8	value:2
+	Pos:8		BeanName:fieldOrderType	Field ID:63	Type:UInt8	value:2
+	Pos:9		BeanName:fieldPrice	Field ID:70	Type:Decimal	value:100.00000000
+	Pos:10		BeanName:fieldOrderQuantity	Field ID:60	Type:Decimal	value:10000
+	Pos:11		BeanName:fieldTIF	Field ID:99	Type:UInt8	value:0
+	Pos:18		BeanName:fieldDisclosureInstructions	Field ID:13	Type:UInt16	value:1
+
+Trailer Field:
+	BeanName:fieldChecksum	Field ID:2	Type:UInt32	value:1922873771
+20181104-08:47:45.139================CO99999902_ThrottleControlOutboundMsgMgr_854367376
+Message:NewOrder	Header Field:
+	BeanName:fieldStartofMessage	Field ID:9	Type:UInt8	value:2
+	BeanName:fieldLength	Field ID:4	Type:UInt16	value:175
+	BeanName:fieldMessageType	Field ID:5	Type:UInt8	value:11
+	BeanName:fieldSequenceNumber	Field ID:8	Type:UInt32	value:9
+	BeanName:fieldPossDup	Field ID:6	Type:UInt8	value:0
+	BeanName:fieldPossResend	Field ID:7	Type:UInt8	value:0
+	BeanName:fieldCompID	Field ID:3	Type:AlphanumericFixedLength	value:CO99999902
+body Field:
+255 240 32 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+	group fields
+	Pos:0		BeanName:fieldClientOrderID	Field ID:10	Type:AlphanumericFixedLength	value:2
+	Pos:1		BeanName:fieldSubmittingBrokerID	Field ID:97	Type:AlphanumericFixedLength	value:700
+	Pos:2		BeanName:fieldSecurityID	Field ID:89	Type:AlphanumericFixedLength	value:2
+	Pos:3		BeanName:fieldSecurityIDSource	Field ID:90	Type:UInt8	value:8
+	Pos:4		BeanName:fieldSecurityExchange	Field ID:88	Type:AlphanumericFixedLength	value:XSSC
+	Pos:5		BeanName:fieldBrokerLocationID	Field ID:3	Type:AlphanumericFixedLength	value:1
+	Pos:6		BeanName:fieldTransactionTime	Field ID:103	Type:AlphanumericFixedLength	value:20181104-00:47:45.137
+	Pos:7		BeanName:fieldSide	Field ID:94	Type:UInt8	value:1
+	Pos:8		BeanName:fieldOrderType	Field ID:63	Type:UInt8	value:2
+	Pos:9		BeanName:fieldPrice	Field ID:70	Type:Decimal	value:100.00000000
+	Pos:10		BeanName:fieldOrderQuantity	Field ID:60	Type:Decimal	value:10000
+	Pos:11		BeanName:fieldTIF	Field ID:99	Type:UInt8	value:0
+	Pos:18		BeanName:fieldDisclosureInstructions	Field ID:13	Type:UInt16	value:1
+
+Trailer Field:
+	BeanName:fieldChecksum	Field ID:2	Type:UInt32	value:360378855

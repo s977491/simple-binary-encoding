@@ -1,0 +1,34 @@
+20181104-08:45:56.227================127.0.0.1P2981_SysCommanderSim_808724591
+Message:Logon	Header Field:
+	BeanName:fieldStartofMessage	Field ID:9	Type:UInt8	value:2
+	BeanName:fieldLength	Field ID:4	Type:UInt16	value:0
+	BeanName:fieldMessageType	Field ID:5	Type:UInt8	value:5
+	BeanName:fieldSequenceNumber	Field ID:8	Type:UInt32	value:1
+	BeanName:fieldPossDup	Field ID:6	Type:UInt8	value:0
+	BeanName:fieldPossResend	Field ID:7	Type:UInt8	value:0
+	BeanName:fieldCompID	Field ID:3	Type:AlphanumericFixedLength	value:CC99999902
+body Field:
+160 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+	group fields
+	Pos:0		BeanName:fieldPassword	Field ID:68	Type:AlphanumericFixedLength	value:Vpey7iKVOKz94bL9/wNaogrU+JrN3f04lLi0DQqD/uMpiV7Ag5aAr5MxeF2G91cFOZ8Cp2jVmENW8lCDGLPw8oSOTTwDbs1LmMHMekDr5+vQNxMptam4Y1Kkli1XVATA4mINtj/3gvHbPPa+hrx2XITxN7CB+a/ODe6c3EptVviMkhLo3vhhhSK2DgwzDnwPq7n7YN19M30+amhwpCb4yC0v6aQ3HmxiZAZoGo0DmyA2fN9jLyI9nSGfiij+lBCX5mmkktbHe9WNRQa/zFGQ/hLRUe+gWf6BgpmiSqlFOlX5sGGjkgCn4tBnE29+l0kXGmwDMA+dc1BHZXm+SZ+2GQ==
+	Pos:2		BeanName:fieldNextExpectedMessageSequence	Field ID:47	Type:UInt32	value:1
+
+Trailer Field:
+	BeanName:fieldChecksum	Field ID:2	Type:UInt32	value:1383198324
+20181104-08:45:56.274================127.0.0.1P2981_SysCommanderSim_808724591
+Message:Logon	Header Field:
+	BeanName:fieldStartofMessage	Field ID:9	Type:UInt8	value:2
+	BeanName:fieldLength	Field ID:4	Type:UInt16	value:0
+	BeanName:fieldMessageType	Field ID:5	Type:UInt8	value:5
+	BeanName:fieldSequenceNumber	Field ID:8	Type:UInt32	value:1
+	BeanName:fieldPossDup	Field ID:6	Type:UInt8	value:0
+	BeanName:fieldPossResend	Field ID:7	Type:UInt8	value:0
+	BeanName:fieldCompID	Field ID:3	Type:AlphanumericFixedLength	value:CC99999902
+body Field:
+160 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+	group fields
+	Pos:0		BeanName:fieldPassword	Field ID:68	Type:AlphanumericFixedLength	value:Vpey7iKVOKz94bL9/wNaogrU+JrN3f04lLi0DQqD/uMpiV7Ag5aAr5MxeF2G91cFOZ8Cp2jVmENW8lCDGLPw8oSOTTwDbs1LmMHMekDr5+vQNxMptam4Y1Kkli1XVATA4mINtj/3gvHbPPa+hrx2XITxN7CB+a/ODe6c3EptVviMkhLo3vhhhSK2DgwzDnwPq7n7YN19M30+amhwpCb4yC0v6aQ3HmxiZAZoGo0DmyA2fN9jLyI9nSGfiij+lBCX5mmkktbHe9WNRQa/zFGQ/hLRUe+gWf6BgpmiSqlFOlX5sGGjkgCn4tBnE29+l0kXGmwDMA+dc1BHZXm+SZ+2GQ==
+	Pos:2		BeanName:fieldNextExpectedMessageSequence	Field ID:47	Type:UInt32	value:1
+
+Trailer Field:
+	BeanName:fieldChecksum	Field ID:2	Type:UInt32	value:1383198324
