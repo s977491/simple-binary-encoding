@@ -54,13 +54,13 @@ public class Ir
      * @param headerTokens    representing the message headerStructure.
      */
     public Ir(
-        final String packageName,
-        final String namespaceName,
-        final int id,
-        final int version,
-        final String semanticVersion,
-        final ByteOrder byteOrder,
-        final List<Token> headerTokens)
+            final String packageName,
+            final String namespaceName,
+            final int id,
+            final int version,
+            final String semanticVersion,
+            final ByteOrder byteOrder,
+            final List<Token> headerTokens)
     {
         Verify.notNull(packageName, "packageName");
         Verify.notNull(headerTokens, "headerTokens");
@@ -287,16 +287,20 @@ public class Ir
                 case BEGIN_SET:
                     i = captureType(tokens, i, Signal.END_SET, token.name(), token.referencedName());
                     break;
+
+                case BEGIN_BITMAP_GROUP:
+                    i = captureType(tokens, i, Signal.END_BITMAP_GROUP, token.name(), token.referencedName());
+                    break;
             }
         }
     }
 
     private int captureType(
-        final List<Token> tokens,
-        final int index,
-        final Signal endSignal,
-        final String name,
-        final String referencedName)
+            final List<Token> tokens,
+            final int index,
+            final Signal endSignal,
+            final String name,
+            final String referencedName)
     {
         final List<Token> typeTokens = new ArrayList<>();
 

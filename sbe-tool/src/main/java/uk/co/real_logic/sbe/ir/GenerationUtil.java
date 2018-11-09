@@ -44,8 +44,18 @@ public final class GenerationUtil
         return collect(Signal.BEGIN_VAR_DATA, tokens, index, varData);
     }
 
+    public static int collectDiscriminator(final List<Token> tokens, final int index, final List<Token> varData)
+    {
+        return collect(Signal.BEGIN_DISCRIMINATOR, tokens, index, varData);
+    }
+
+    public static int collectBitmapGroup(final List<Token> tokens, final int index, final List<Token> varData)
+    {
+        return collect(Signal.BEGIN_BITMAP_GROUP, tokens, index, varData);
+    }
+
     public static int collect(
-        final Signal signal, final List<Token> tokens, final int index, final List<Token> collected)
+            final Signal signal, final List<Token> tokens, final int index, final List<Token> collected)
     {
         int i = index;
         while (i < tokens.size())
@@ -72,23 +82,23 @@ public final class GenerationUtil
     }
 
     public static CharSequence concatEncodingTokens(
-        final List<Token> tokens, final Function<Token, CharSequence> mapper)
+            final List<Token> tokens, final Function<Token, CharSequence> mapper)
     {
         return concatTokens(tokens, Signal.ENCODING, mapper);
     }
 
     public static CharSequence concatTokens(
-        final List<Token> tokens, final Signal signal, final Function<Token, CharSequence> mapper)
+            final List<Token> tokens, final Signal signal, final Function<Token, CharSequence> mapper)
     {
         return tokens
-            .stream()
-            .filter((token) -> token.signal() == signal)
-            .map(mapper)
-            .collect(joining());
+                .stream()
+                .filter((token) -> token.signal() == signal)
+                .map(mapper)
+                .collect(joining());
     }
 
     public static int findEndSignal(
-        final List<Token> tokens, final int startIndex, final Signal signal, final String name)
+            final List<Token> tokens, final int startIndex, final Signal signal, final String name)
     {
         int result = tokens.size() - 1;
 

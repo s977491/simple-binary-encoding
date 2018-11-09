@@ -101,6 +101,10 @@ public enum Signal
      */
     END_VAR_DATA,
 
+    BEGIN_DISCRIMINATOR,
+    END_DISCRIMINATOR,
+    BEGIN_BITMAP_GROUP,
+    END_BITMAP_GROUP,
     /**
      * Denotes the {@link uk.co.real_logic.sbe.ir.Token} is an encoding
      */

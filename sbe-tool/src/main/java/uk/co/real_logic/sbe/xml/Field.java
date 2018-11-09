@@ -47,23 +47,27 @@ public class Field
     private int computedBlockLength;           // used to hold the calculated block length of this group
     private final String epoch;                // optional, epoch from which a timestamps start, defaults to "unix"
     private final String timeUnit;             // optional, defaults to "nanosecond".
+    private final String disciminatorBaseOn;
+    private final int bitBytes;
 
     public Field(
-        final String name,
-        final String description,
-        final int id,
-        final Type type,
-        final int offset,
-        final String semanticType,
-        final Presence presence,
-        final String valueRef,
-        final int blockLength,
-        final CompositeType dimensionType,
-        final boolean variableLength,
-        final int sinceVersion,
-        final int deprecated,
-        final String epoch,
-        final String timeUnit)
+            final String name,
+            final String description,
+            final int id,
+            final Type type,
+            final int offset,
+            final String semanticType,
+            final Presence presence,
+            final String valueRef,
+            final int blockLength,
+            final CompositeType dimensionType,
+            final boolean variableLength,
+            final int sinceVersion,
+            final int deprecated,
+            final String epoch,
+            final String timeUnit,
+            final String disciminatorBaseOn,
+            final int bitBytes)
     {
         this.name = name;
         this.description = description;
@@ -83,14 +87,16 @@ public class Field
         this.computedBlockLength = 0;
         this.epoch = epoch;
         this.timeUnit = timeUnit;
+        this.disciminatorBaseOn = disciminatorBaseOn;
+        this.bitBytes = bitBytes;
     }
 
     public void validate(final Node node, final Map<String, Type> typeByNameMap)
     {
         if (type != null &&
-            semanticType != null &&
-            type.semanticType() != null &&
-            !semanticType.equals(type.semanticType()))
+                semanticType != null &&
+                type.semanticType() != null &&
+                !semanticType.equals(type.semanticType()))
         {
             handleError(node, "Mismatched semanticType on type and field: " + name);
         }
@@ -242,27 +248,33 @@ public class Field
         return timeUnit;
     }
 
+    public String disciminatorBaseOn() { return disciminatorBaseOn; }
+
+    public int bitBytes() {return bitBytes;}
+
     public String toString()
     {
         return "Field{name='" + name + '\'' +
-            ", description='" + description + '\'' +
-            ", id=" + id +
-            ", type=" + type +
-            ", offset=" + offset +
-            ", semanticType='" + semanticType + '\'' +
-            ", presence=" + presence +
-            ", valueRef='" + valueRef + '\'' +
-            ", blockLength=" + blockLength +
-            ", dimensionType=" + dimensionType +
-            ", variableLength=" + variableLength +
-            ", sinceVersion=" + sinceVersion +
-            ", deprecated=" + deprecated +
-            ", groupFieldList=" + groupFieldList +
-            ", computedOffset=" + computedOffset +
-            ", computedBlockLength=" + computedBlockLength +
-            ", epoch='" + epoch + '\'' +
-            ", timeUnit=" + timeUnit +
-            '}';
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", type=" + type +
+                ", offset=" + offset +
+                ", semanticType='" + semanticType + '\'' +
+                ", presence=" + presence +
+                ", valueRef='" + valueRef + '\'' +
+                ", blockLength=" + blockLength +
+                ", dimensionType=" + dimensionType +
+                ", variableLength=" + variableLength +
+                ", sinceVersion=" + sinceVersion +
+                ", deprecated=" + deprecated +
+                ", groupFieldList=" + groupFieldList +
+                ", computedOffset=" + computedOffset +
+                ", computedBlockLength=" + computedBlockLength +
+                ", epoch='" + epoch + '\'' +
+                ", timeUnit=" + timeUnit +
+                ", disciminatorBaseOn=" + disciminatorBaseOn +
+                ", bitBytes=" + bitBytes +
+                '}';
     }
 
     private void validateValueRef(final Node node, final Map<String, Type> typeByNameMap)
@@ -313,6 +325,8 @@ public class Field
         private int deprecated = 0;
         private String epoch;
         private String timeUnit;
+        private String disciminatorBaseOn;
+        private int bitBytes=0;
 
         public Builder name(final String name)
         {
@@ -404,24 +418,38 @@ public class Field
             return this;
         }
 
+
+        public Builder disciminatorBaseOn(final String baseOn) {
+            this.disciminatorBaseOn = baseOn;
+            return this;
+        }
+        public Builder bitBytes(final int bitBytes)
+        {
+            this.bitBytes = bitBytes;
+            return this;
+        }
+
         public Field build()
         {
             return new Field(
-                name,
-                description,
-                id,
-                type,
-                offset,
-                semanticType,
-                presence,
-                refValue,
-                blockLength,
-                dimensionType,
-                variableLength,
-                sinceVersion,
-                deprecated,
-                epoch,
-                timeUnit);
+                    name,
+                    description,
+                    id,
+                    type,
+                    offset,
+                    semanticType,
+                    presence,
+                    refValue,
+                    blockLength,
+                    dimensionType,
+                    variableLength,
+                    sinceVersion,
+                    deprecated,
+                    epoch,
+                    timeUnit,
+                    disciminatorBaseOn,
+                    bitBytes);
         }
+
     }
 }

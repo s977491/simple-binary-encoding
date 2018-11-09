@@ -17,6 +17,8 @@ package uk.co.real_logic.sbe.ir;
 
 import org.agrona.Verify;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import static uk.co.real_logic.sbe.ir.Encoding.Presence.CONSTANT;
@@ -65,6 +67,9 @@ import static uk.co.real_logic.sbe.ir.Encoding.Presence.OPTIONAL;
  */
 public class Token
 {
+    public static final String PROPKEY_DISC_BASE_ON = "disciminatorBaseOn";
+    public static final String PROPKEY_BIT_BYTES = "bitBytes";
+
     /**
      * Invalid ID value.
      */
@@ -91,6 +96,7 @@ public class Token
     private final int offset;
     private int componentTokenCount;
     private final Encoding encoding;
+    private final Map<String, Object> mapProps;
 
     /**
      * Construct an {@link Token} by providing values for all fields.
@@ -108,17 +114,17 @@ public class Token
      * @param encoding            of the primitive field.
      */
     public Token(
-        final Signal signal,
-        final String name,
-        final String referencedName,
-        final String description,
-        final int id,
-        final int version,
-        final int deprecated,
-        final int encodedLength,
-        final int offset,
-        final int componentTokenCount,
-        final Encoding encoding)
+            final Signal signal,
+            final String name,
+            final String referencedName,
+            final String description,
+            final int id,
+            final int version,
+            final int deprecated,
+            final int encodedLength,
+            final int offset,
+            final int componentTokenCount,
+            final Encoding encoding)
     {
         Verify.notNull(signal, "signal");
         Verify.notNull(name, "name");
@@ -135,6 +141,7 @@ public class Token
         this.offset = offset;
         this.componentTokenCount = componentTokenCount;
         this.encoding = encoding;
+        mapProps = new HashMap<>();
     }
 
     /**
@@ -332,18 +339,25 @@ public class Token
     public String toString()
     {
         return "Token{" +
-            "signal=" + signal +
-            ", name='" + name + '\'' +
-            ", referencedName='" + referencedName + '\'' +
-            ", description='" + description + '\'' +
-            ", id=" + id +
-            ", version=" + version +
-            ", deprecated=" + deprecated +
-            ", encodedLength=" + encodedLength +
-            ", offset=" + offset +
-            ", componentTokenCount=" + componentTokenCount +
-            ", encoding=" + encoding +
-            '}';
+                "signal=" + signal +
+                ", name='" + name + '\'' +
+                ", referencedName='" + referencedName + '\'' +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", version=" + version +
+                ", deprecated=" + deprecated +
+                ", encodedLength=" + encodedLength +
+                ", offset=" + offset +
+                ", componentTokenCount=" + componentTokenCount +
+                ", encoding=" + encoding +
+                '}';
+    }
+
+    public void setProperty(String key, Object value) {
+        mapProps.put(key, value);
+    }
+    public Object getProperty(String key) {
+        return mapProps.get(key);
     }
 
     public static class Builder
@@ -429,17 +443,17 @@ public class Token
         public Token build()
         {
             return new Token(
-                signal,
-                name,
-                referencedName,
-                description,
-                id,
-                version,
-                deprecated,
-                size,
-                offset,
-                componentTokenCount,
-                encoding);
+                    signal,
+                    name,
+                    referencedName,
+                    description,
+                    id,
+                    version,
+                    deprecated,
+                    size,
+                    offset,
+                    componentTokenCount,
+                    encoding);
         }
     }
 }

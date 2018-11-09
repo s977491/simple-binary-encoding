@@ -25,6 +25,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static uk.co.real_logic.sbe.ir.Token.PROPKEY_BIT_BYTES;
+import static uk.co.real_logic.sbe.ir.Token.PROPKEY_DISC_BASE_ON;
+
 /**
  * Class to hold the state while generating the {@link uk.co.real_logic.sbe.ir.Ir}.
  */
@@ -46,13 +49,13 @@ public class IrGenerator
 
         final List<Token> headerTokens = generateForHeader(schema);
         final Ir ir = new Ir(
-            schema.packageName(),
-            namespace,
-            schema.id(),
-            schema.version(),
-            schema.semanticVersion(),
-            schema.byteOrder(),
-            headerTokens);
+                schema.packageName(),
+                namespace,
+                schema.id(),
+                schema.version(),
+                schema.semanticVersion(),
+                schema.byteOrder(),
+                headerTokens);
 
         for (final Message message : schema.messages())
         {
@@ -99,30 +102,30 @@ public class IrGenerator
     private void addMessageSignal(final Message msg, final Signal signal)
     {
         final Encoding encoding = new Encoding.Builder()
-            .semanticType(msg.semanticType())
-            .build();
+                .semanticType(msg.semanticType())
+                .build();
 
         final Token token = new Token.Builder()
-            .signal(signal)
-            .name(msg.name())
-            .description(msg.description())
-            .size(msg.blockLength())
-            .id(msg.id())
-            .version(msg.sinceVersion())
-            .deprecated(msg.deprecated())
-            .encoding(encoding)
-            .build();
+                .signal(signal)
+                .name(msg.name())
+                .description(msg.description())
+                .size(msg.blockLength())
+                .id(msg.id())
+                .version(msg.sinceVersion())
+                .deprecated(msg.deprecated())
+                .encoding(encoding)
+                .build();
 
         tokenList.add(token);
     }
 
-    private void addFieldSignal(final Field field, final Signal signal)
+    private Token addFieldSignal(final Field field, final Signal signal)
     {
         final Encoding.Builder encodingBuilder = new Encoding.Builder()
-            .epoch(field.epoch())
-            .timeUnit(field.timeUnit())
-            .presence(mapPresence(field.presence()))
-            .semanticType(semanticTypeOf(null, field));
+                .epoch(field.epoch())
+                .timeUnit(field.timeUnit())
+                .presence(mapPresence(field.presence()))
+                .semanticType(semanticTypeOf(null, field));
 
         if (field.presence() == Presence.CONSTANT && null != field.valueRef())
         {
@@ -142,18 +145,19 @@ public class IrGenerator
         }
 
         final Token token = new Token.Builder()
-            .signal(signal)
-            .size(field.computedBlockLength())
-            .name(field.name())
-            .description(field.description())
-            .id(field.id())
-            .offset(field.computedOffset())
-            .version(field.sinceVersion())
-            .deprecated(field.deprecated())
-            .encoding(encodingBuilder.build())
-            .build();
+                .signal(signal)
+                .size(field.computedBlockLength())
+                .name(field.name())
+                .description(field.description())
+                .id(field.id())
+                .offset(field.computedOffset())
+                .version(field.sinceVersion())
+                .deprecated(field.deprecated())
+                .encoding(encodingBuilder.build())
+                .build();
 
         tokenList.add(token);
+        return token;
     }
 
     private void addAllFields(final List<Field> fieldList)
@@ -164,10 +168,25 @@ public class IrGenerator
 
             if (null == type)
             {
-                addFieldSignal(field, Signal.BEGIN_GROUP);
-                add(field.dimensionType(), 0, field);
-                addAllFields(field.groupFields());
-                addFieldSignal(field, Signal.END_GROUP);
+                if (field.dimensionType() != null) {
+                    addFieldSignal(field, Signal.BEGIN_GROUP);
+                    add(field.dimensionType(), 0, field);
+                    addAllFields(field.groupFields());
+                    addFieldSignal(field, Signal.END_GROUP);
+                } else {
+                    if (field.disciminatorBaseOn() != null) {
+                        Token token = addFieldSignal(field, Signal.BEGIN_DISCRIMINATOR);
+                        token.setProperty(PROPKEY_DISC_BASE_ON, field.disciminatorBaseOn());
+                        addAllFields(field.groupFields());
+                        addFieldSignal(field, Signal.END_DISCRIMINATOR);
+                    }
+                    else if (field.bitBytes() > 0) {
+                        Token token = addFieldSignal(field, Signal.BEGIN_BITMAP_GROUP);
+                        token.setProperty(PROPKEY_BIT_BYTES, String.valueOf(field.bitBytes()));
+                        addAllFields(field.groupFields());
+                        addFieldSignal(field, Signal.END_BITMAP_GROUP);
+                    }
+                }
             }
             else if (type instanceof CompositeType && field.isVariableLength())
             {
@@ -208,19 +227,19 @@ public class IrGenerator
     private void add(final CompositeType type, final int currOffset, final Field field)
     {
         final Encoding encoding = new Encoding.Builder()
-            .semanticType(semanticTypeOf(type, field))
-            .build();
+                .semanticType(semanticTypeOf(type, field))
+                .build();
 
         final Token.Builder builder = new Token.Builder()
-            .signal(Signal.BEGIN_COMPOSITE)
-            .name(type.name())
-            .referencedName(type.referencedName())
-            .offset(currOffset)
-            .size(type.encodedLength())
-            .version(type.sinceVersion())
-            .deprecated(type.deprecated())
-            .description(type.description())
-            .encoding(encoding);
+                .signal(Signal.BEGIN_COMPOSITE)
+                .name(type.name())
+                .referencedName(type.referencedName())
+                .offset(currOffset)
+                .size(type.encodedLength())
+                .version(type.sinceVersion())
+                .deprecated(type.deprecated())
+                .description(type.description())
+                .encoding(encoding);
 
         if (null != field)
         {
@@ -264,9 +283,9 @@ public class IrGenerator
     {
         final PrimitiveType encodingType = type.encodingType();
         final Encoding.Builder encodingBuilder = new Encoding.Builder()
-            .primitiveType(encodingType)
-            .semanticType(semanticTypeOf(type, field))
-            .byteOrder(schema.byteOrder());
+                .primitiveType(encodingType)
+                .semanticType(semanticTypeOf(type, field))
+                .byteOrder(schema.byteOrder());
 
         if (type.presence() == Presence.OPTIONAL)
         {
@@ -274,15 +293,15 @@ public class IrGenerator
         }
 
         final Token.Builder builder = new Token.Builder()
-            .signal(Signal.BEGIN_ENUM)
-            .name(type.name())
-            .referencedName(type.referencedName())
-            .size(encodingType.size())
-            .offset(offset)
-            .version(type.sinceVersion())
-            .deprecated(type.deprecated())
-            .description(type.description())
-            .encoding(encodingBuilder.build());
+                .signal(Signal.BEGIN_ENUM)
+                .name(type.name())
+                .referencedName(type.referencedName())
+                .size(encodingType.size())
+                .offset(offset)
+                .version(type.sinceVersion())
+                .deprecated(type.deprecated())
+                .description(type.description())
+                .encoding(encodingBuilder.build());
 
         if (null != field)
         {
@@ -304,18 +323,18 @@ public class IrGenerator
     private void add(final EnumType.ValidValue value, final PrimitiveType encodingType)
     {
         final Encoding encoding = new Encoding.Builder()
-            .byteOrder(schema.byteOrder())
-            .primitiveType(encodingType)
-            .constValue(value.primitiveValue())
-            .build();
+                .byteOrder(schema.byteOrder())
+                .primitiveType(encodingType)
+                .constValue(value.primitiveValue())
+                .build();
 
         final Token.Builder builder = new Token.Builder()
-            .signal(Signal.VALID_VALUE)
-            .name(value.name())
-            .version(value.sinceVersion())
-            .deprecated(value.deprecated())
-            .description(value.description())
-            .encoding(encoding);
+                .signal(Signal.VALID_VALUE)
+                .name(value.name())
+                .version(value.sinceVersion())
+                .deprecated(value.deprecated())
+                .description(value.description())
+                .encoding(encoding);
 
         tokenList.add(builder.build());
     }
@@ -325,20 +344,20 @@ public class IrGenerator
         final PrimitiveType encodingType = type.encodingType();
 
         final Encoding encoding = new Encoding.Builder()
-            .semanticType(semanticTypeOf(type, field))
-            .primitiveType(encodingType)
-            .build();
+                .semanticType(semanticTypeOf(type, field))
+                .primitiveType(encodingType)
+                .build();
 
         final Token.Builder builder = new Token.Builder()
-            .signal(Signal.BEGIN_SET)
-            .name(type.name())
-            .referencedName(type.referencedName())
-            .size(encodingType.size())
-            .offset(offset)
-            .version(type.sinceVersion())
-            .deprecated(type.deprecated())
-            .description(type.description())
-            .encoding(encoding);
+                .signal(Signal.BEGIN_SET)
+                .name(type.name())
+                .referencedName(type.referencedName())
+                .size(encodingType.size())
+                .offset(offset)
+                .version(type.sinceVersion())
+                .deprecated(type.deprecated())
+                .description(type.description())
+                .encoding(encoding);
 
         if (null != field)
         {
@@ -360,18 +379,18 @@ public class IrGenerator
     private void add(final SetType.Choice value, final PrimitiveType encodingType)
     {
         final Encoding encoding = new Encoding.Builder()
-            .constValue(value.primitiveValue())
-            .byteOrder(schema.byteOrder())
-            .primitiveType(encodingType)
-            .build();
+                .constValue(value.primitiveValue())
+                .byteOrder(schema.byteOrder())
+                .primitiveType(encodingType)
+                .build();
 
         final Token.Builder builder = new Token.Builder()
-            .signal(Signal.CHOICE)
-            .name(value.name())
-            .description(value.description())
-            .version(value.sinceVersion())
-            .deprecated(value.deprecated())
-            .encoding(encoding);
+                .signal(Signal.CHOICE)
+                .name(value.name())
+                .description(value.description())
+                .version(value.sinceVersion())
+                .deprecated(value.deprecated())
+                .encoding(encoding);
 
         tokenList.add(builder.build());
     }
@@ -379,41 +398,41 @@ public class IrGenerator
     private void add(final EncodedDataType type, final int offset)
     {
         final Encoding.Builder encodingBuilder = new Encoding.Builder()
-            .primitiveType(type.primitiveType())
-            .byteOrder(schema.byteOrder())
-            .characterEncoding(type.characterEncoding());
+                .primitiveType(type.primitiveType())
+                .byteOrder(schema.byteOrder())
+                .characterEncoding(type.characterEncoding());
 
         final Token.Builder tokenBuilder = new Token.Builder()
-            .signal(Signal.ENCODING)
-            .name(type.name())
-            .referencedName(type.referencedName())
-            .size(type.encodedLength())
-            .description(type.description())
-            .version(type.sinceVersion())
-            .deprecated(type.deprecated())
-            .offset(offset);
+                .signal(Signal.ENCODING)
+                .name(type.name())
+                .referencedName(type.referencedName())
+                .size(type.encodedLength())
+                .description(type.description())
+                .version(type.sinceVersion())
+                .deprecated(type.deprecated())
+                .offset(offset);
 
         switch (type.presence())
         {
             case REQUIRED:
                 encodingBuilder
-                    .presence(Encoding.Presence.REQUIRED)
-                    .minValue(type.minValue())
-                    .maxValue(type.maxValue());
+                        .presence(Encoding.Presence.REQUIRED)
+                        .minValue(type.minValue())
+                        .maxValue(type.maxValue());
                 break;
 
             case OPTIONAL:
                 encodingBuilder
-                    .presence(Encoding.Presence.OPTIONAL)
-                    .minValue(type.minValue())
-                    .maxValue(type.maxValue())
-                    .nullValue(type.nullValue());
+                        .presence(Encoding.Presence.OPTIONAL)
+                        .minValue(type.minValue())
+                        .maxValue(type.maxValue())
+                        .nullValue(type.nullValue());
                 break;
 
             case CONSTANT:
                 encodingBuilder
-                    .presence(Encoding.Presence.CONSTANT)
-                    .constValue(type.constVal());
+                        .presence(Encoding.Presence.CONSTANT)
+                        .constValue(type.constVal());
                 break;
         }
 
@@ -425,22 +444,22 @@ public class IrGenerator
     private void add(final EncodedDataType type, final int offset, final Field field)
     {
         final Encoding.Builder encodingBuilder = new Encoding.Builder()
-            .primitiveType(type.primitiveType())
-            .byteOrder(schema.byteOrder())
-            .semanticType(semanticTypeOf(type, field))
-            .characterEncoding(type.characterEncoding())
-            .timeUnit(field.timeUnit())
-            .epoch(field.epoch());
+                .primitiveType(type.primitiveType())
+                .byteOrder(schema.byteOrder())
+                .semanticType(semanticTypeOf(type, field))
+                .characterEncoding(type.characterEncoding())
+                .timeUnit(field.timeUnit())
+                .epoch(field.epoch());
 
         final Token.Builder tokenBuilder = new Token.Builder()
-            .signal(Signal.ENCODING)
-            .name(type.name())
-            .referencedName(type.referencedName())
-            .size(type.encodedLength())
-            .description(type.description())
-            .version(type.sinceVersion())
-            .deprecated(type.deprecated())
-            .offset(offset);
+                .signal(Signal.ENCODING)
+                .name(type.name())
+                .referencedName(type.referencedName())
+                .size(type.encodedLength())
+                .description(type.description())
+                .version(type.sinceVersion())
+                .deprecated(type.deprecated())
+                .offset(offset);
 
         if (field.type() instanceof CompositeType)
         {
@@ -451,25 +470,25 @@ public class IrGenerator
         {
             case REQUIRED:
                 encodingBuilder
-                    .presence(Encoding.Presence.REQUIRED)
-                    .minValue(type.minValue())
-                    .maxValue(type.maxValue());
+                        .presence(Encoding.Presence.REQUIRED)
+                        .minValue(type.minValue())
+                        .maxValue(type.maxValue());
                 break;
 
             case OPTIONAL:
                 encodingBuilder
-                    .presence(Encoding.Presence.OPTIONAL)
-                    .minValue(type.minValue())
-                    .maxValue(type.maxValue())
-                    .nullValue(type.nullValue());
+                        .presence(Encoding.Presence.OPTIONAL)
+                        .minValue(type.minValue())
+                        .maxValue(type.maxValue())
+                        .nullValue(type.nullValue());
                 break;
 
             case CONSTANT:
                 final String valueRef = field.valueRef();
                 tokenBuilder.size(0);
                 encodingBuilder
-                    .presence(Encoding.Presence.CONSTANT)
-                    .constValue(valueRef != null ? lookupValueRef(valueRef) : type.constVal());
+                        .presence(Encoding.Presence.CONSTANT)
+                        .constValue(valueRef != null ? lookupValueRef(valueRef) : type.constVal());
                 break;
         }
 

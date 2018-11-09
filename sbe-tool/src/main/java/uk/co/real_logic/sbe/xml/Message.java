@@ -45,7 +45,7 @@ import static uk.co.real_logic.sbe.xml.XmlSchemaParser.*;
  */
 public class Message
 {
-    private static final String FIELD_OR_GROUP_OR_DATA_EXPR = "field|group|data";
+    private static final String FIELD_OR_GROUP_OR_DATA_EXPR = "field|group|data|discriminator|ocgBitmapGroup";
 
     private final int id;
     private final String name;
@@ -57,6 +57,7 @@ public class Message
     private final String semanticType;
     private final int computedBlockLength;
     private final Map<String, Type> typeByNameMap;
+    private boolean freewillEncountered;
 
     /**
      * Construct a new message from XML Schema.
@@ -75,7 +76,7 @@ public class Message
         deprecated = Integer.parseInt(getAttributeValue(messageNode, "deprecated", "0"));
         semanticType = getAttributeValueOrNull(messageNode, "semanticType");                // optional
         this.typeByNameMap = typeByNameMap;
-
+        freewillEncountered = false;
         fieldList = parseMembers(messageNode);
         computeAndValidateOffsets(messageNode, fieldList, blockLength);
 
@@ -170,7 +171,7 @@ public class Message
         boolean groupEncountered = false, dataEncountered = false;
 
         final ObjectHashSet<String> distinctNames = new ObjectHashSet<>();
-        final IntHashSet distinctIds = new IntHashSet();
+//        final IntHashSet distinctIds = new IntHashSet();
         final ArrayList<Field> fieldList = new ArrayList<>();
 
         for (int i = 0, size = list.getLength(); i < size; i++)
@@ -181,7 +182,7 @@ public class Message
             switch (nodeName)
             {
                 case "group":
-                    if (dataEncountered)
+                    if (!freewillEncountered && dataEncountered )
                     {
                         handleError(node, "group node specified after data node");
                     }
@@ -196,22 +197,31 @@ public class Message
                     break;
 
                 case "field":
-                    if (groupEncountered || dataEncountered)
+                    if (!freewillEncountered && (groupEncountered || dataEncountered ))
                     {
                         handleError(node, "field node specified after group or data node specified");
                     }
 
                     field = parseField(list, i);
                     break;
-
+                case "discriminator":
+                    field = parseDisciminator(list, i);
+                    dataEncountered = true;
+                    freewillEncountered = true;
+                    break;
+                case "ocgBitmapGroup":
+                    field = parseOcgBitmapGroup(list, i);
+                    dataEncountered = true;
+                    freewillEncountered = true;
+                    break;
                 default:
                     throw new IllegalStateException("Unknown node name: " + nodeName);
             }
 
-            if (!distinctIds.add(field.id()))
-            {
-                handleError(node, "duplicate id found: " + field.id());
-            }
+//            if (!distinctIds.add(field.id()))
+//            {
+//                handleError(node, "duplicate id found: " + field.id());
+//            }
 
             if (!distinctNames.add(field.name()))
             {
@@ -244,14 +254,14 @@ public class Message
         }
 
         final Field field = new Field.Builder()
-            .name(getAttributeValue(node, "name"))
-            .description(getAttributeValueOrNull(node, "description"))
-            .id(Integer.parseInt(getAttributeValue(node, "id")))
-            .blockLength(Integer.parseInt(getAttributeValue(node, "blockLength", "0")))
-            .sinceVersion(Integer.parseInt(getAttributeValue(node, "sinceVersion", "0")))
-            .deprecated(Integer.parseInt(getAttributeValue(node, "deprecated", "0")))
-            .dimensionType((CompositeType)dimensionType)
-            .build();
+                .name(getAttributeValue(node, "name"))
+                .description(getAttributeValueOrNull(node, "description"))
+                .id(Integer.parseInt(getAttributeValue(node, "id")))
+                .blockLength(Integer.parseInt(getAttributeValue(node, "blockLength", "0")))
+                .sinceVersion(Integer.parseInt(getAttributeValue(node, "sinceVersion", "0")))
+                .deprecated(Integer.parseInt(getAttributeValue(node, "deprecated", "0")))
+                .dimensionType((CompositeType)dimensionType)
+                .build();
 
         XmlSchemaParser.checkForValidName(node, field.name());
 
@@ -260,6 +270,44 @@ public class Message
         return field;
     }
 
+    private Field parseDisciminator(final NodeList nodeList, final int nodeIndex) throws XPathExpressionException
+    {
+        final Node node = nodeList.item(nodeIndex);
+        final Field field = new Field.Builder()
+                .name(getAttributeValue(node, "name"))
+                .description(getAttributeValueOrNull(node, "description"))
+                .id(Integer.parseInt(getAttributeValue(node, "id")))
+                .blockLength(Integer.parseInt(getAttributeValue(node, "blockLength", "0")))
+                .sinceVersion(Integer.parseInt(getAttributeValue(node, "sinceVersion", "0")))
+                .deprecated(Integer.parseInt(getAttributeValue(node, "deprecated", "0")))
+                .disciminatorBaseOn(getAttributeValue(node, "baseOn", null))
+                .build();
+
+        XmlSchemaParser.checkForValidName(node, field.name());
+
+        field.groupFields(parseMembers(node)); // recursive call
+
+        return field;
+    }
+    private Field parseOcgBitmapGroup(final NodeList nodeList, final int nodeIndex) throws XPathExpressionException
+    {
+        final Node node = nodeList.item(nodeIndex);
+        final Field field = new Field.Builder()
+                .name(getAttributeValue(node, "name"))
+                .description(getAttributeValueOrNull(node, "description"))
+                .id(Integer.parseInt(getAttributeValue(node, "id")))
+                .blockLength(Integer.parseInt(getAttributeValue(node, "blockLength", "0")))
+                .sinceVersion(Integer.parseInt(getAttributeValue(node, "sinceVersion", "0")))
+                .deprecated(Integer.parseInt(getAttributeValue(node, "deprecated", "0")))
+                .bitBytes(Integer.parseInt(getAttributeValue(node, "bitBytes", "0")))
+                .build();
+
+        XmlSchemaParser.checkForValidName(node, field.name());
+
+        field.groupFields(parseMembers(node)); // recursive call
+
+        return field;
+    }
     private Field parseField(final NodeList nodeList, final int nodeIndex)
     {
         final Node node = nodeList.item(nodeIndex);
@@ -271,19 +319,19 @@ public class Message
         }
 
         final Field field = new Field.Builder()
-            .name(getAttributeValue(node, "name"))
-            .description(getAttributeValueOrNull(node, "description"))
-            .id(Integer.parseInt(getAttributeValue(node, "id")))
-            .offset(Integer.parseInt(getAttributeValue(node, "offset", "0")))
-            .semanticType(getAttributeValueOrNull(node, "semanticType"))
-            .presence(getPresence(node, fieldType))
-            .valueRef(getAttributeValueOrNull(node, "valueRef"))
-            .sinceVersion(Integer.parseInt(getAttributeValue(node, "sinceVersion", "0")))
-            .deprecated(Integer.parseInt(getAttributeValue(node, "deprecated", "0")))
-            .epoch(getAttributeValueOrNull(node, "epoch"))
-            .timeUnit(getAttributeValueOrNull(node, "timeUnit"))
-            .type(fieldType)
-            .build();
+                .name(getAttributeValue(node, "name"))
+                .description(getAttributeValueOrNull(node, "description"))
+                .id(Integer.parseInt(getAttributeValue(node, "id")))
+                .offset(Integer.parseInt(getAttributeValue(node, "offset", "0")))
+                .semanticType(getAttributeValueOrNull(node, "semanticType"))
+                .presence(getPresence(node, fieldType))
+                .valueRef(getAttributeValueOrNull(node, "valueRef"))
+                .sinceVersion(Integer.parseInt(getAttributeValue(node, "sinceVersion", "0")))
+                .deprecated(Integer.parseInt(getAttributeValue(node, "deprecated", "0")))
+                .epoch(getAttributeValueOrNull(node, "epoch"))
+                .timeUnit(getAttributeValueOrNull(node, "timeUnit"))
+                .type(fieldType)
+                .build();
 
         field.validate(node, typeByNameMap);
 
@@ -331,19 +379,19 @@ public class Message
         }
 
         final Field field = new Field.Builder()
-            .name(getAttributeValue(node, "name"))
-            .description(getAttributeValueOrNull(node, "description"))
-            .id(Integer.parseInt(getAttributeValue(node, "id")))
-            .offset(Integer.parseInt(getAttributeValue(node, "offset", "0")))
-            .semanticType(getAttributeValueOrNull(node, "semanticType"))
-            .presence(Presence.get(getAttributeValue(node, "presence", "required")))
-            .sinceVersion(Integer.parseInt(getAttributeValue(node, "sinceVersion", "0")))
-            .deprecated(Integer.parseInt(getAttributeValue(node, "deprecated", "0")))
-            .epoch(getAttributeValue(node, "epoch", "unix"))
-            .timeUnit(getAttributeValue(node, "timeUnit", "nanosecond"))
-            .type(fieldType)
-            .variableLength(true)
-            .build();
+                .name(getAttributeValue(node, "name"))
+                .description(getAttributeValueOrNull(node, "description"))
+                .id(Integer.parseInt(getAttributeValue(node, "id")))
+                .offset(Integer.parseInt(getAttributeValue(node, "offset", "0")))
+                .semanticType(getAttributeValueOrNull(node, "semanticType"))
+                .presence(Presence.get(getAttributeValue(node, "presence", "required")))
+                .sinceVersion(Integer.parseInt(getAttributeValue(node, "sinceVersion", "0")))
+                .deprecated(Integer.parseInt(getAttributeValue(node, "deprecated", "0")))
+                .epoch(getAttributeValue(node, "epoch", "unix"))
+                .timeUnit(getAttributeValue(node, "timeUnit", "nanosecond"))
+                .type(fieldType)
+                .variableLength(true)
+                .build();
 
         field.validate(node, typeByNameMap);
 
@@ -451,12 +499,12 @@ public class Message
     }
 
     private static void validateBlockLength(
-        final Node node, final long specifiedBlockLength, final long computedBlockLength)
+            final Node node, final long specifiedBlockLength, final long computedBlockLength)
     {
         if (0 != specifiedBlockLength && computedBlockLength > specifiedBlockLength)
         {
             final String msg = "specified blockLength provides insufficient space " +
-                computedBlockLength + " > " + specifiedBlockLength;
+                    computedBlockLength + " > " + specifiedBlockLength;
 
             handleError(node, msg);
         }

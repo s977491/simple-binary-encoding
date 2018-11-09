@@ -46,23 +46,61 @@ public class OCGExampleGeneratedStub
         final UnsafeBuffer directBuffer = new UnsafeBuffer(byteBuffer);
 
 
-        File file = new File(OCGExampleGeneratedStub.class.getClassLoader().getResource("ocg/CO99999902_bin_send_0001.log").getFile());
+        File file = new File(OCGExampleGeneratedStub.class.getClassLoader().getResource("ocg/CO99999902_bin_send_0001.dat").getFile());
 
         try (FileChannel channel = FileChannel.open(file.toPath(), READ))
         {
+            //decode
             byteBuffer.limit(OCG_DECODER.sbeBlockLength());
-            int ret;
-            do {
-                ret = channel.read(byteBuffer);
-                if (ret == -1) {
-                    throw new Exception("file end prematurely");
-                }
-            } while (byteBuffer.limit() != byteBuffer.position());
+            readChannelByLimit(byteBuffer, channel);
 
             int bufferOffset = 0;
             OCG_DECODER.wrap(directBuffer, bufferOffset, OCG_DECODER.sbeBlockLength(), MESSAGE_HEADER_DECODER.version());
 
+            byteBuffer.limit(OCG_DECODER.sbeBlockLength() + OCG_DECODER.length());
+            readChannelByLimit(byteBuffer, channel);
             System.out.println(OCG_DECODER.toString());
+
+            //encode
+            final ByteBuffer byteBufferWrite = ByteBuffer.allocateDirect(4096);
+            final UnsafeBuffer directBufferWrite = new UnsafeBuffer(byteBufferWrite);
+            OCG_ENCODER.wrap(directBufferWrite, 0);
+            OCG_ENCODER.startOfMsg(OCG_DECODER.startOfMsg());
+            OCG_ENCODER.length(OCG_DECODER.length());
+            OCG_ENCODER.msgType(OCG_DECODER.msgType());
+            OCG_ENCODER.sequenceNumber(OCG_DECODER.sequenceNumber());
+            OCG_ENCODER.possDup(OCG_DECODER.possDup());
+            OCG_ENCODER.possResend(OCG_DECODER.possResend());
+            OCG_ENCODER.compId(OCG_DECODER.compId());
+
+//            IMsgBodyEncoder bodyEncoder = OCG_ENCODER.msgBody(OCG_DECODER.msgType());
+            OcgEncoder.MsgbodyLogonEncoder bodyEncoder = OCG_ENCODER.msgbodyLogon();
+            final OcgDecoder.MsgbodyLogonDecoder msgbodyLogonDecoder = OCG_DECODER.msgbodyLogon();
+            if (msgbodyLogonDecoder.passwordIsSet()) {
+                bodyEncoder.putPassword(msgbodyLogonDecoder.password());
+            }
+            if (msgbodyLogonDecoder.newPasswordIsSet()) {
+                bodyEncoder.putNewPassword(msgbodyLogonDecoder.newPassword());
+            }
+            if (msgbodyLogonDecoder.nextExpectedMessageSequenceIsSet()) {
+                bodyEncoder.nextExpectedMessageSequence(msgbodyLogonDecoder.nextExpectedMessageSequence());
+            }
+            //compare
+            assert (OCG_ENCODER.encodedLength() == OCG_DECODER.encodedLength());
+            for (int i = 0; i < OCG_ENCODER.encodedLength(); i++) {
+                assert (directBufferWrite.getByte(i) == directBuffer.getByte(i));
+            }
         }
+
+    }
+
+    private static void readChannelByLimit(ByteBuffer byteBuffer, FileChannel channel) throws Exception {
+        int ret;
+        do {
+            ret = channel.read(byteBuffer);
+            if (ret == -1) {
+                throw new Exception("file end prematurely");
+            }
+        } while (byteBuffer.limit() != byteBuffer.position());
     }
 }

@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<sbe:messageSchema xmlns:sbe="http://fixprotocol.io/2016/sbe"
-                   package="baseline"
-                   id="1"
-                   version="0"
-                   semanticVersion="5.2"
-                   description="Eg OCG schema"
-                   headerType="dummyMsgHeader"
-                   byteOrder="littleEndian">
+<messageSchema package="baseline"
+               id="1"
+               version="0"
+               semanticVersion="5.2"
+               description="Eg OCG schema"
+               headerType="dummyMsgHeader"
+               byteOrder="littleEndian">
     <types>
+        <composite name="varStringEncoding">
+            <type name="length" primitiveType="uint16" />
+            <type name="varData" primitiveType="uint8" length="0" characterEncoding="UTF-8"/>
+        </composite>
+
         <composite name="dummyMsgHeader" description="Message identifiers and length of message root">
             <type name="blockLength" primitiveType="uint16" presence="constant">1024</type>
             <type name="templateId" primitiveType="uint16" presence="constant">1</type>
@@ -50,8 +54,65 @@
             <validValue name="PartyEntitlementsReport">28</validValue>
         </enum>
         <type name="CompIDType" primitiveType="char" length="12" characterEncoding="ASCII"/>
+        <type name="PasswordType" primitiveType="char" length="450" characterEncoding="ASCII"/>
+
+        <type name="clientorderidType" primitiveType="char" length="21" characterEncoding="ASCII"/>
+        <type name="submittingbrokeridType" primitiveType="char" length="12" characterEncoding="ASCII" />
+        <type name="securityidType" primitiveType="char" length="21" characterEncoding="ASCII"/>
+        <type name="securityidsourceType" primitiveType="uint8"/>
+        <type name="securityexchangeType" primitiveType="char" length="5" characterEncoding="ASCII"/>
+        <type name="brokerlocationidType" primitiveType="char" length="11" characterEncoding="ASCII"/>
+        <type name="transactiontimeType" primitiveType="char" length="25" characterEncoding="ASCII"/>
+        <enum name="sideType" encodingType="uint8" >
+            <validValue name="Buy">1</validValue>
+            <validValue name="Sell">2</validValue>
+            <validValue name="SellShort">5</validValue>
+        </enum>
+        <enum name="ordertypeType" encodingType="int8" >
+            <validValue name="Market">1</validValue>
+            <validValue name="Limit">2</validValue>
+        </enum>
+        <type name="priceType" primitiveType="int64"/>
+        <type name="orderquantityType" primitiveType="int64"/>
+        <enum name="tifType" encodingType="uint8">
+            <validValue name="Day">0</validValue>
+            <validValue name="IOC">3</validValue>
+            <validValue name="FOK">4</validValue>
+            <validValue name="AtCrossing">9</validValue>
+        </enum>
+        <type name="positioneffectType" primitiveType="uint8"/>
+        <type name="orderrestrictionsType" primitiveType="char" length="21" characterEncoding="ASCII"/>
+        <type name="maxpricelevelsType" primitiveType="uint8" />
+        <enum name="ordercapacityType" encodingType="int8" >
+            <validValue name="Agency">1</validValue>
+            <validValue name="Principal">2</validValue>
+        </enum>
+        <type name="executioninstructionsType" primitiveType="char" length="21" characterEncoding="ASCII" />
+        <set name="disclosureinstructionsType" encodingType="uint16">
+            <choice name="inst0">0</choice>
+            <choice name="inst1">1</choice>
+            <choice name="inst2">2</choice>
+            <choice name="inst3">3</choice>
+            <choice name="inst4">4</choice>
+            <choice name="inst5">5</choice>
+            <choice name="inst6">6</choice>
+            <choice name="inst7">7</choice>
+            <choice name="inst8">8</choice>
+            <choice name="inst9">9</choice>
+            <choice name="inst10">10</choice>
+            <choice name="inst11">11</choice>
+            <choice name="inst12">12</choice>
+            <choice name="inst13">13</choice>
+            <choice name="inst14">14</choice>
+            <choice name="inst15">15</choice>
+        </set>
+        <enum name="lottypeType" encodingType="int8" >
+            <validValue name="OddLot">1</validValue>
+            <validValue name="RoundLot">2</validValue>
+        </enum>
+        <type name="investoridType" primitiveType="char" length="21" characterEncoding="ASCII"/>
     </types>
-    <sbe:message name="Ocg" id="1" description="General Message" >
+    <message name="Ocg" id="1" description="General Message" >
         <field name="startOfMsg" id="1" type="uint8"/>
         <field name="length" id="2" type="uint16"/>
         <field name="msgType" id="3" type="MessageType"/>
@@ -59,5 +120,36 @@
         <field name="possDup" id="5" type="BoolType"/>
         <field name="possResend" id="6" type="BoolType"/>
         <field name="compId" id="7" type="CompIDType"/>
-    </sbe:message>
-</sbe:messageSchema>
+        <discriminator name="msgBody" id="8" baseOn="msgType">
+            <ocgBitmapGroup name="Logon" bitBytes="32" id="9">
+                <field name="password" id="10" type="PasswordType"/>
+                <field name="newPassword" id="11" type="PasswordType"/>
+                <field name="nextSequenceNumber" id="12" type="uint32"/>
+            </ocgBitmapGroup>
+            <ocgBitmapGroup name="NewOrder" bitBytes="32" id="9">
+                <field name="clientorderid" id="13" type="clientorderidType"/>
+                <field name="submittingbrokerid" id="14" type="submittingbrokeridType"/>
+                <field name="securityid" id="15" type="securityidType"/>
+                <field name="securityidsource" id="16" type="securityidsourceType"/>
+                <field name="securityexchange" id="17" type="securityexchangeType"/>
+                <field name="brokerlocationid" id="18" type="brokerlocationidType"/>
+                <field name="transactiontime" id="19" type="transactiontimeType"/>
+                <field name="side" id="20" type="sideType"/>
+                <field name="ordertype" id="21" type="ordertypeType"/>
+                <field name="price" id="22" type="priceType"/>
+                <field name="orderquantity" id="23" type="orderquantityType"/>
+                <field name="tif" id="24" type="tifType"/>
+                <field name="positioneffect" id="25" type="positioneffectType"/>
+                <field name="orderrestrictions" id="26" type="orderrestrictionsType"/>
+                <field name="maxpricelevels" id="27" type="maxpricelevelsType"/>
+                <field name="ordercapacity" id="28" type="ordercapacityType"/>
+                <data name="text" id="29" type="varStringEncoding"/>
+                <field name="executioninstructions" id="30" type="executioninstructionsType"/>
+                <field name="disclosureinstructions" id="31" type="disclosureinstructionsType"/>
+                <field name="lottype" id="32" type="lottypeType"/>
+                <field name="investorid" id="33" type="investoridType"/>
+            </ocgBitmapGroup>
+        </discriminator>
+    </message>
+</messageSchema>
+
